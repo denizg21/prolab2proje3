@@ -60,6 +60,7 @@ public class JsonAnalyzer {
             if (columnName.equals("id")) {
                 columnName = "json_id";
             }
+            columnName = resolveColumnName(columnName, schema);
 
             if (value.isJsonNull()) {
                 schema.addColumn(new ColumnDef(columnName, "TEXT"));
@@ -103,6 +104,17 @@ public class JsonAnalyzer {
                 processArray(element.getAsJsonArray(), childTableName + "_item", childTableName, newId);
             }
         }
+    }
+
+    private String resolveColumnName(String name, TableSchema schema) {
+        if (!schema.hasColumn(name)) {
+            return name;
+        }
+        int i = 1;
+        while (schema.hasColumn(name + "_" + i)) {
+            i++;
+        }
+        return name + "_" + i;
     }
 
     private String inferType(JsonPrimitive p) {
