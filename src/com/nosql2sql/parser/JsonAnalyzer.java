@@ -18,6 +18,10 @@ public class JsonAnalyzer {
     private HashMap<String, ArrayList<LinkedHashMap<String, Object>>> tableData = new HashMap<>();
     private HashMap<String, Integer> idCounters = new HashMap<>();
 
+    // Her tablo icin satir cache: tablo_adi -> (satirAnahtari -> id)
+    // Ayni veri tekrar gelirse yeni satir eklemeyip mevcut id'yi dondurmek icin
+    private HashMap<String, HashMap<String, Integer>> rowCache = new HashMap<>();
+
     public void analyze(JsonElement root, String rootTableName) {
         if (root.isJsonArray()) {
             processArray(root.getAsJsonArray(), rootTableName, null, -1);
@@ -43,8 +47,36 @@ public class JsonAnalyzer {
 
         flattenFields(obj, tableName, schema, row, "", internalId);
 
+        // Satiri cache anahtarina donustur (id ve fk sutunlari haric)
+        String cacheKey = buildCacheKey(row, parentTable);
+
+        if (!rowCache.containsKey(tableName)) {
+            rowCache.put(tableName, new HashMap<>());
+        }
+
+        HashMap<String, Integer> tableCache = rowCache.get(tableName);
+
+        if (tableCache.containsKey(cacheKey)) {
+            // Ayni veri zaten var - sayaci geri al, mevcut id'yi don
+            idCounters.put(tableName, idCounters.get(tableName) - 1);
+            return tableCache.get(cacheKey);
+        }
+
+        tableCache.put(cacheKey, internalId);
         addRow(tableName, row);
         return internalId;
+    }
+
+    // Satirin benzersiz anahtarini olusturur (id ve fk sutunlari haric)
+    private String buildCacheKey(LinkedHashMap<String, Object> row, String parentTable) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Object> entry : row.entrySet()) {
+            String col = entry.getKey();
+            if (col.equals("id")) continue;
+            if (parentTable != null && col.equals(parentTable + "_id")) continue;
+            sb.append(col).append("=").append(entry.getValue()).append(";");
+        }
+        return sb.toString();
     }
 
     private void flattenFields(JsonObject obj, String tableName,
@@ -93,11 +125,22 @@ public class JsonAnalyzer {
                 if (parentTable != null) schema.addForeignKey(parentTable);
                 schema.addColumn(new ColumnDef("value", "TEXT"));
 
-                LinkedHashMap<String, Object> row = new LinkedHashMap<>();
-                row.put("id", nextId(childTableName));
-                if (parentTable != null) row.put(parentTable + "_id", parentId);
-                row.put("value", element.isJsonNull() ? null : element.getAsString());
-                addRow(childTableName, row);
+                String val = element.isJsonNull() ? null : element.getAsString();
+                String cacheKey = "value=" + val + ";";
+
+                if (!rowCache.containsKey(childTableName)) {
+                    rowCache.put(childTableName, new HashMap<>());
+                }
+
+                if (!rowCache.get(childTableName).containsKey(cacheKey)) {
+                    LinkedHashMap<String, Object> row = new LinkedHashMap<>();
+                    int newId = nextId(childTableName);
+                    row.put("id", newId);
+                    if (parentTable != null) row.put(parentTable + "_id", parentId);
+                    row.put("value", val);
+                    addRow(childTableName, row);
+                    rowCache.get(childTableName).put(cacheKey, newId);
+                }
 
             } else if (element.isJsonArray()) {
                 int newId = nextId(childTableName);
@@ -169,5 +212,6 @@ public class JsonAnalyzer {
         tables.clear();
         tableData.clear();
         idCounters.clear();
+        rowCache.clear();
     }
 }
