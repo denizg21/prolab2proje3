@@ -91,8 +91,10 @@ public class JsonAnalyzer {
 
             if (columnName.equals("id")) {
                 columnName = "json_id";
+                if (schema.hasColumn(columnName)) {
+                    columnName = resolveColumnName(columnName, schema);
+                }
             }
-            columnName = resolveColumnName(columnName, schema);
 
             if (value.isJsonNull()) {
                 schema.addColumn(new ColumnDef(columnName, "TEXT"));
