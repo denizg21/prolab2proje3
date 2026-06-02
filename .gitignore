@@ -1,0 +1,5 @@
+out/
+*.db
+*.class
+*.pdf
+manifest.txt

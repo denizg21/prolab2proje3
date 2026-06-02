@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "isim": "Ahmet Yılmaz",
+  "yas": 25,
+  "aktif": true,
+  "adres": {
+    "sehir": "Kocaeli",
+    "ilce": "İzmit",
+    "posta_kodu": "41100"
+  },
+  "dersler": [
+    {"ders_adi": "Veri Yapıları", "kredi": 4, "not": 85},
+    {"ders_adi": "Programlama Lab", "kredi": 2, "not": 90},
+    {"ders_adi": "Algoritma Analizi", "kredi": 3, "not": 78}
+  ],
+  "hobiler": ["programlama", "satranç", "yüzme"]
+}

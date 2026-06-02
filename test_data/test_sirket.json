@@ -1,0 +1,69 @@
+{
+  "sirket_adi": "TechSoft A.Ş.",
+  "kurulis_yili": 2010,
+  "aktif": true,
+  "merkez": {
+    "sehir": "Kocaeli",
+    "adres": "Teknoloji Cad. No:5",
+    "telefon": "0262-000-0000"
+  },
+  "departmanlar": [
+    {
+      "ad": "Yazılım Geliştirme",
+      "butce": 500000,
+      "yonetici": "Ayşe Kaya",
+      "calisanlar": [
+        {
+          "ad": "Mehmet",
+          "soyad": "Demir",
+          "yas": 28,
+          "maas": 35000,
+          "beceriler": ["Java", "Python", "SQL"]
+        },
+        {
+          "ad": "Zeynep",
+          "soyad": "Arslan",
+          "yas": 25,
+          "maas": 30000,
+          "beceriler": ["React", "JavaScript"]
+        }
+      ],
+      "projeler": [
+        {
+          "proje_adi": "Müşteri Portalı",
+          "baslangic": "2024-01-01",
+          "bitis": "2024-06-30",
+          "tamamlandi": true
+        },
+        {
+          "proje_adi": "Mobil Uygulama",
+          "baslangic": "2024-07-01",
+          "bitis": "2025-01-01",
+          "tamamlandi": false
+        }
+      ]
+    },
+    {
+      "ad": "İnsan Kaynakları",
+      "butce": 150000,
+      "yonetici": "Ali Çelik",
+      "calisanlar": [
+        {
+          "ad": "Fatma",
+          "soyad": "Yıldız",
+          "yas": 35,
+          "maas": 28000,
+          "beceriler": ["İşe Alım", "Bordro"]
+        }
+      ],
+      "projeler": [
+        {
+          "proje_adi": "Performans Sistemi",
+          "baslangic": "2024-03-01",
+          "bitis": "2024-09-01",
+          "tamamlandi": false
+        }
+      ]
+    }
+  ]
+}

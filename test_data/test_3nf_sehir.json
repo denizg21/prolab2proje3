@@ -1,0 +1,50 @@
+{
+  "ulke": "Türkiye",
+  "nufus": 85000000,
+  "sehirler": [
+    {
+      "ad": "Kocaeli",
+      "plaka": 41,
+      "ilceler": [
+        {
+          "ad": "İzmit",
+          "nufus": 320000,
+          "mahalleler": [
+            { "ad": "Merkez", "posta_kodu": "41100" },
+            { "ad": "Kuruçeşme", "posta_kodu": "41100" },
+            { "ad": "Körfez Mah.", "posta_kodu": "41100" }
+          ]
+        },
+        {
+          "ad": "Gebze",
+          "nufus": 450000,
+          "mahalleler": [
+            { "ad": "Güzeller", "posta_kodu": "41400" },
+            { "ad": "Çayırova", "posta_kodu": "41420" }
+          ]
+        }
+      ]
+    },
+    {
+      "ad": "İstanbul",
+      "plaka": 34,
+      "ilceler": [
+        {
+          "ad": "Kadıköy",
+          "nufus": 500000,
+          "mahalleler": [
+            { "ad": "Moda", "posta_kodu": "34710" },
+            { "ad": "Bağdat Cad.", "posta_kodu": "34728" }
+          ]
+        },
+        {
+          "ad": "Beşiktaş",
+          "nufus": 180000,
+          "mahalleler": [
+            { "ad": "Ortaköy", "posta_kodu": "34347" }
+          ]
+        }
+      ]
+    }
+  ]
+}

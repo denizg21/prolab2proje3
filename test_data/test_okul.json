@@ -1,0 +1,79 @@
+{
+  "okul_adi": "Kocaeli Üniversitesi",
+  "tur": "Devlet",
+  "kurulis": 1992,
+  "iletisim": {
+    "telefon": "0262-303-1000",
+    "eposta": "info@kocaeli.edu.tr",
+    "adres": {
+      "il": "Kocaeli",
+      "ilce": "İzmit",
+      "sokak": "Üniversite Cad."
+    }
+  },
+  "bolumler": [
+    {
+      "bolum_adi": "Bilgisayar Mühendisliği",
+      "kontenjan": 120,
+      "ogretim_uyesi_sayisi": 15,
+      "dersler": [
+        {
+          "ders_kodu": "BM301",
+          "ders_adi": "Veri Yapıları",
+          "kredi": 4,
+          "zorunlu": true
+        },
+        {
+          "ders_kodu": "BM302",
+          "ders_adi": "Algoritma Analizi",
+          "kredi": 3,
+          "zorunlu": true
+        },
+        {
+          "ders_kodu": "BM401",
+          "ders_adi": "Yapay Zeka",
+          "kredi": 3,
+          "zorunlu": false
+        }
+      ],
+      "ogrenciler": [
+        {
+          "ogrenci_no": "20190001",
+          "ad": "Burak",
+          "soyad": "Şahin",
+          "gpa": 3.45,
+          "aktif": true
+        },
+        {
+          "ogrenci_no": "20190002",
+          "ad": "Selin",
+          "soyad": "Kurt",
+          "gpa": 3.80,
+          "aktif": true
+        }
+      ]
+    },
+    {
+      "bolum_adi": "Elektrik-Elektronik Mühendisliği",
+      "kontenjan": 100,
+      "ogretim_uyesi_sayisi": 12,
+      "dersler": [
+        {
+          "ders_kodu": "EE201",
+          "ders_adi": "Devre Analizi",
+          "kredi": 4,
+          "zorunlu": true
+        }
+      ],
+      "ogrenciler": [
+        {
+          "ogrenci_no": "20190101",
+          "ad": "Emre",
+          "soyad": "Doğan",
+          "gpa": 2.95,
+          "aktif": true
+        }
+      ]
+    }
+  ]
+}

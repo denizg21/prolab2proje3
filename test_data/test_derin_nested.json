@@ -1,0 +1,82 @@
+{
+  "platform": "E-Ticaret",
+  "versiyon": 2,
+  "ayarlar": {
+    "para_birimi": "TRY",
+    "dil": "TR",
+    "kargo": {
+      "ucretsiz_esik": 500,
+      "firma": "Yurtiçi",
+      "sure_gun": 3
+    }
+  },
+  "kategoriler": [
+    {
+      "kategori_adi": "Elektronik",
+      "urunler": [
+        {
+          "urun_adi": "Laptop",
+          "fiyat": 25000.99,
+          "stok": 50,
+          "ozellikler": {
+            "marka": "TechBrand",
+            "ram_gb": 16,
+            "depolama_gb": 512,
+            "ekran_inc": 15.6
+          },
+          "etiketler": ["bilgisayar", "taşınabilir", "iş"],
+          "yorumlar": [
+            {
+              "kullanici": "ahmet_k",
+              "puan": 5,
+              "yorum": "Harika ürün",
+              "tarih": "2024-05-01"
+            },
+            {
+              "kullanici": "mehmet_d",
+              "puan": 4,
+              "yorum": "İyi ama pahalı",
+              "tarih": "2024-05-10"
+            }
+          ]
+        },
+        {
+          "urun_adi": "Kulaklık",
+          "fiyat": 1500.0,
+          "stok": 200,
+          "ozellikler": {
+            "marka": "SoundPro",
+            "kablosuz": true,
+            "batarya_saat": 30
+          },
+          "etiketler": ["ses", "müzik"],
+          "yorumlar": [
+            {
+              "kullanici": "zeynep_a",
+              "puan": 5,
+              "yorum": "Ses kalitesi mükemmel",
+              "tarih": "2024-04-20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kategori_adi": "Kitap",
+      "urunler": [
+        {
+          "urun_adi": "Veri Yapıları",
+          "fiyat": 120.0,
+          "stok": 30,
+          "ozellikler": {
+            "yazar": "Ahmet Bilgili",
+            "sayfa_sayisi": 450,
+            "dil": "Türkçe"
+          },
+          "etiketler": ["yazılım", "eğitim", "algoritma"],
+          "yorumlar": []
+        }
+      ]
+    }
+  ]
+}
