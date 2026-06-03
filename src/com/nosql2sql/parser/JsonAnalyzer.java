@@ -145,7 +145,7 @@ public class JsonAnalyzer {
                 schema.addColumn(new ColumnDef("value", "TEXT"));
 
                 String val = element.isJsonNull() ? null : element.getAsString();
-                String cacheKey = "value=" + val + ";";
+                String cacheKey = parentTable + "_id=" + parentId + ";value=" + val + ";";
 
                 if (!rowCache.containsKey(childTableName)) {
                     rowCache.put(childTableName, new HashMap<>());
@@ -173,7 +173,6 @@ public class JsonAnalyzer {
         for (Map.Entry<String, Object> entry : row.entrySet()) {
             String col = entry.getKey();
             if (col.equals("id")) continue;
-            if (parentTable != null && col.equals(parentTable + "_id")) continue;
             sb.append(col).append("=").append(entry.getValue()).append(";");
         }
         return sb.toString();
