@@ -1,0 +1,19 @@
+JAR OLUSTURMA ADIMLARI
+======================
+
+1. Once derle:
+   compile.bat
+
+2. Sonra PowerShell'de proje klasöründeyken:
+
+   cd out
+   & "C:\Program Files\Java\jdk-21\bin\jar.exe" xf "..\lib\gson-2.10.1.jar"
+   & "C:\Program Files\Java\jdk-21\bin\jar.exe" xf "..\lib\sqlite-jdbc-3.36.0.3.jar"
+   cd ..
+   & "C:\Program Files\Java\jdk-21\bin\jar.exe" cfm nosql2sql.jar manifest.txt -C out .
+
+3. Calistirmak icin:
+   java -jar nosql2sql.jar
+
+NOT: dedup branch icin jar ismi degistir:
+   & "C:\Program Files\Java\jdk-21\bin\jar.exe" cfm nosql2sql-dedup.jar manifest.txt -C out .
