@@ -305,13 +305,7 @@ public class JsonAnalyzer {
                     flattenFields(nestedObj, schema, row, columnName);
                 } else {
                     String nestedTableName = tableName + "_" + key;
-                    int nestedId = processObject(nestedObj, nestedTableName, tableName, internalId);
-                    String fkColName = key + "_id";
-                    ColumnDef fkCol = new ColumnDef(fkColName, "INTEGER");
-                    fkCol.setForeignKey(true);
-                    fkCol.setReferencedTable(nestedTableName);
-                    schema.addColumn(fkCol);
-                    row.put(fkColName, nestedId);
+                    processObject(nestedObj, nestedTableName, tableName, internalId);
                 }
 
             } else if (value.isJsonArray()) {
