@@ -1,0 +1,24 @@
+[
+  {
+    "isim": "Ahmet",
+    "adres": { "sehir": "Kocaeli", "ilce": "İzmit" },
+    "konum": {
+      "ilce": {
+        "ad": "İzmit",
+        "sehir": { "ad": "Kocaeli" }
+      }
+    },
+    "hobiler": ["yüzme", "kitap"]
+  },
+  {
+    "isim": "Ayşe",
+    "adres": { "sehir": "İstanbul", "ilce": "Kadıköy" },
+    "konum": {
+      "ilce": {
+        "ad": "Kadıköy",
+        "sehir": { "ad": "İstanbul" }
+      }
+    },
+    "hobiler": ["müzik"]
+  }
+]

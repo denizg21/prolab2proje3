@@ -91,22 +91,56 @@ public class JsonAnalyzer {
                 row.put(columnName, getValue(value.getAsJsonPrimitive()));
 
             } else if (value.isJsonObject()) {
-                // 3NF: ic ice obje -> ayri tablo + FK baglantisi
-                String nestedTableName = tableName + "_" + key;
-                int nestedId = processObject(value.getAsJsonObject(), nestedTableName, tableName, internalId);
-
-                String fkColName = key + "_id";
-                ColumnDef fkCol = new ColumnDef(fkColName, "INTEGER");
-                fkCol.setForeignKey(true);
-                fkCol.setReferencedTable(nestedTableName);
-                schema.addColumn(fkCol);
-                row.put(fkColName, nestedId);
+                JsonObject nestedObj = value.getAsJsonObject();
+                if (containsOnlyPrimitives(nestedObj)) {
+                    // Flatten: ic ice obje sadece primitive icerigiyorsa ayni tabloya prefix ile ekle
+                    flattenFields(nestedObj, schema, row, columnName);
+                } else {
+                    // 3NF: ic ice obje baska obje/array iceriyorsa ayri tablo + FK
+                    String nestedTableName = tableName + "_" + key;
+                    int nestedId = processObject(nestedObj, nestedTableName, tableName, internalId);
+                    String fkColName = key + "_id";
+                    ColumnDef fkCol = new ColumnDef(fkColName, "INTEGER");
+                    fkCol.setForeignKey(true);
+                    fkCol.setReferencedTable(nestedTableName);
+                    schema.addColumn(fkCol);
+                    row.put(fkColName, nestedId);
+                }
 
             } else if (value.isJsonArray()) {
                 String childTableName = tableName + "_" + key;
                 processArray(value.getAsJsonArray(), childTableName, tableName, internalId);
             }
         }
+    }
+
+    // Sadece primitive degerler iceren nested objeyi ayni tabloya prefix_kolon olarak ekler
+    private void flattenFields(JsonObject obj, TableSchema schema,
+                               LinkedHashMap<String, Object> row, String prefix) {
+        for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
+            String columnName = prefix + "_" + entry.getKey();
+            JsonElement value = entry.getValue();
+
+            if (value.isJsonNull()) {
+                schema.addColumn(new ColumnDef(columnName, "TEXT"));
+                row.put(columnName, null);
+            } else if (value.isJsonPrimitive()) {
+                String type = inferType(value.getAsJsonPrimitive());
+                schema.addColumn(new ColumnDef(columnName, type));
+                row.put(columnName, getValue(value.getAsJsonPrimitive()));
+            }
+        }
+    }
+
+    // Bir JSON objesinin yalnizca primitive/null degerler icerip icermedigini kontrol eder
+    private boolean containsOnlyPrimitives(JsonObject obj) {
+        for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
+            JsonElement val = entry.getValue();
+            if (!val.isJsonPrimitive() && !val.isJsonNull()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void processArray(JsonArray array, String childTableName, String parentTable, int parentId) {
