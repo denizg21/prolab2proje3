@@ -90,13 +90,7 @@ public class JsonAnalyzer {
                 row.put(columnName, getValue(value.getAsJsonPrimitive()));
 
             } else if (value.isJsonObject()) {
-                JsonObject nestedObj = value.getAsJsonObject();
-                if (containsOnlyPrimitives(nestedObj)) {
-                    flattenFields(nestedObj, schema, row, columnName);
-                } else {
-                    String nestedTableName = tableName + "_" + key;
-                    processObject(nestedObj, nestedTableName, tableName, internalId);
-                }
+                flattenObject(value.getAsJsonObject(), tableName, schema, row, columnName, internalId);
 
             } else if (value.isJsonArray()) {
                 String childTableName = tableName + "_" + key;
@@ -105,8 +99,8 @@ public class JsonAnalyzer {
         }
     }
 
-    private void flattenFields(JsonObject obj, TableSchema schema,
-                               LinkedHashMap<String, Object> row, String prefix) {
+    private void flattenObject(JsonObject obj, String tableName, TableSchema schema,
+                               LinkedHashMap<String, Object> row, String prefix, int internalId) {
         for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
             String columnName = prefix + "_" + entry.getKey();
             JsonElement value = entry.getValue();
@@ -114,22 +108,20 @@ public class JsonAnalyzer {
             if (value.isJsonNull()) {
                 schema.addColumn(new ColumnDef(columnName, "TEXT"));
                 row.put(columnName, null);
+
             } else if (value.isJsonPrimitive()) {
                 String type = inferType(value.getAsJsonPrimitive());
                 schema.addColumn(new ColumnDef(columnName, type));
                 row.put(columnName, getValue(value.getAsJsonPrimitive()));
-            }
-        }
-    }
 
-    private boolean containsOnlyPrimitives(JsonObject obj) {
-        for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
-            JsonElement val = entry.getValue();
-            if (!val.isJsonPrimitive() && !val.isJsonNull()) {
-                return false;
+            } else if (value.isJsonObject()) {
+                flattenObject(value.getAsJsonObject(), tableName, schema, row, columnName, internalId);
+
+            } else if (value.isJsonArray()) {
+                String childTableName = tableName + "_" + columnName;
+                processArray(value.getAsJsonArray(), childTableName, tableName, internalId);
             }
         }
-        return true;
     }
 
     private void processArray(JsonArray array, String childTableName, String parentTable, int parentId) {
