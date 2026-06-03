@@ -18,7 +18,6 @@ public class JsonAnalyzer {
     private HashMap<String, ArrayList<LinkedHashMap<String, Object>>> tableData = new HashMap<>();
     private HashMap<String, Integer> idCounters = new HashMap<>();
 
-    // Ayni satir tekrar gelirse yeni satir eklemeyip mevcut id'yi dondurmek icin
     private HashMap<String, HashMap<String, Integer>> rowCache = new HashMap<>();
 
     public void analyze(JsonElement root, String rootTableName) {
@@ -93,10 +92,8 @@ public class JsonAnalyzer {
             } else if (value.isJsonObject()) {
                 JsonObject nestedObj = value.getAsJsonObject();
                 if (containsOnlyPrimitives(nestedObj)) {
-                    // Flatten: ic ice obje sadece primitive icerigiyorsa ayni tabloya prefix ile ekle
                     flattenFields(nestedObj, schema, row, columnName);
                 } else {
-                    // 3NF: ic ice obje baska obje/array iceriyorsa ayri tablo + FK
                     String nestedTableName = tableName + "_" + key;
                     int nestedId = processObject(nestedObj, nestedTableName, tableName, internalId);
                     String fkColName = key + "_id";
@@ -114,7 +111,6 @@ public class JsonAnalyzer {
         }
     }
 
-    // Sadece primitive degerler iceren nested objeyi ayni tabloya prefix_kolon olarak ekler
     private void flattenFields(JsonObject obj, TableSchema schema,
                                LinkedHashMap<String, Object> row, String prefix) {
         for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
@@ -132,7 +128,6 @@ public class JsonAnalyzer {
         }
     }
 
-    // Bir JSON objesinin yalnizca primitive/null degerler icerip icermedigini kontrol eder
     private boolean containsOnlyPrimitives(JsonObject obj) {
         for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
             JsonElement val = entry.getValue();
